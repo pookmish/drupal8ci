@@ -5,7 +5,10 @@ RUN docker-php-ext-enable pcov
 RUN docker-php-ext-install bz2
 RUN docker-php-ext-install calendar
 
-# Disable xdebug in favor of pcov
+# Disable xdebug in favor of pcov.
+# For the testing package run:
+# composer require pcov/clobber --dev
+# vendor/bin/pcov clobber
 RUN mkdir /usr/local/etc/php/conf.d/disabled
 RUN mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/disabled/
 
