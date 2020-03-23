@@ -29,4 +29,4 @@ RUN curl -L https://github.com/github/hub/releases/download/v2.14.1/hub-linux-am
     && rm -rf hub-linux-amd64-2.14.1/
 
 RUN composer global config minimum-stability dev
-
+RUN composer global update
