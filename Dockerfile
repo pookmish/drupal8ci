@@ -13,3 +13,4 @@ RUN adduser www-data root
 RUN adduser root www-data
 
 RUN composer global config minimum-stability dev
+RUN composer global update
