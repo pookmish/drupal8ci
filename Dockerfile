@@ -12,5 +12,6 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 RUN adduser www-data root
 RUN adduser root www-data
 
+RUN composer self-update
 RUN composer global config minimum-stability dev
 RUN composer global update
