@@ -13,7 +13,7 @@ RUN mkdir /usr/local/etc/php/conf.d/disabled
 RUN mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/disabled/
 
 # Change docroot since we use Composer Drupal project.
-RUN sed -ri -e 's!/var/www/html/web!/var/www/html/docroot!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/.*?$!/var/www/html/docroot!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html/web!/var/www/html/docroot!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
