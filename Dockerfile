@@ -24,7 +24,7 @@ RUN adduser root www-data
 # We need to install github/hub to instantiate pull requests automatically.
 RUN curl -L https://github.com/github/hub/releases/download/v2.14.1/hub-linux-amd64-2.14.1.tgz \
     | tar -xz \
-    && mv /var/www/html/hub-linux-amd64-2.14.1/bin/hub /usr/local/bin/ \
+    && mv hub-linux-amd64-2.14.1/bin/hub /usr/local/bin/ \
     && sudo chmod +x /usr/local/bin/hub \
     && rm -rf hub-linux-amd64-2.14.1/
 
