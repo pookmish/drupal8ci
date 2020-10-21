@@ -31,3 +31,4 @@ RUN curl -L https://github.com/github/hub/releases/download/v2.14.1/hub-linux-am
 RUN composer self-update
 RUN composer global config minimum-stability dev
 RUN composer global update
+RUN cd /var/www && rm -rf html
