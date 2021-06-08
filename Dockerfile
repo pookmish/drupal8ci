@@ -28,7 +28,7 @@ RUN curl -L https://github.com/github/hub/releases/download/v2.14.1/hub-linux-am
     && sudo chmod +x /usr/local/bin/hub \
     && rm -rf hub-linux-amd64-2.14.1/
 
-RUN composer self-update
+RUN composer self-update --2
 RUN composer global config minimum-stability dev
 RUN composer global update
 RUN cd /var/www && rm -rf html
