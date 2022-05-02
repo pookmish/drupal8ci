@@ -28,3 +28,6 @@ RUN echo 'export PATH=~/.config/composer/vendor/bin:$PATH' >> ~/.bashrc
 USER root
 RUN echo 'keychain id_rsa id_dsa' >> /etc/bash.bashrc
 RUN echo '. ~/.keychain/`uname -n` -sh' >> /etc/bash.bashrc
+
+RUN mkdir -p /home/gitpod/.ssh
+COPY ssh_config /home/gitpod/.ssh/config
