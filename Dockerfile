@@ -20,13 +20,13 @@ RUN sudo curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php &
 RUN sudo chown gitpod:gitpod -R /home/gitpod/.config
 RUN composer global config minimum-stability dev && \
     composer global config prefer-stable true && \
-    composer global require drush/drush:^10 acquia/blt-launcher:^1.0
+    composer global require drush/drush:^8.0 acquia/blt-launcher:^1.0
 
 ENV PATH="/home/gitpod/.config/composer/vendor/bin:${PATH}"
 RUN echo 'export PATH=~/.config/composer/vendor/bin:$PATH' >> ~/.bashrc
 
 USER root
-RUN echo 'keychain id_rsa id_dsa' >> /etc/bash.bashrc
+RUN echo 'keychain id_rsa' >> /etc/bash.bashrc
 RUN echo '. ~/.keychain/`uname -n` -sh' >> /etc/bash.bashrc
 
 RUN mkdir -p /home/gitpod/.ssh
