@@ -1,35 +1,33 @@
-FROM juampynr/drupal8ci:latest
+FROM tugboatqa/php:8-apache
 
-RUN pecl install pcov
-RUN docker-php-ext-enable pcov
-RUN docker-php-ext-install bz2
-RUN docker-php-ext-install calendar
+RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+RUN apt-get update && apt-get install bash git curl patch libmagickwand-dev libzip-dev zip imagemagick -y
 
-# Disable xdebug in favor of pcov.
-# For the testing package run:
-# composer require pcov/clobber --dev
-# vendor/bin/pcov clobber
-RUN mkdir /usr/local/etc/php/conf.d/disabled
-RUN mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/disabled/
+RUN pecl install pcov imagick
+RUN docker-php-ext-enable imagick
+RUN docker-php-ext-configure gd --with-jpeg
+RUN docker-php-ext-install gd bz2 pdo zip
 
-# Change docroot since we use Composer Drupal project.
-RUN sed -ri -e 's!/var/www/.*?$!/var/www/html/docroot!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/html/web!/var/www/html/docroot!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+RUN echo 'extension=pcov.so' >> /usr/local/etc/php/php.ini
 
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN echo 'export PATH=$PATH:$HOME/.composer/vendor/bin'  >> ~/.profile
+RUN echo 'export PATH=$HOME/.composer/vendor/bin:$PATH' >> ~/.bashrc
 
-RUN adduser www-data root
-RUN adduser root www-data
+RUN sed -i 's/128M/-1/g' /usr/local/etc/php/php.ini
 
-# We need to install github/hub to instantiate pull requests automatically.
-RUN curl -L https://github.com/github/hub/releases/download/v2.14.1/hub-linux-amd64-2.14.1.tgz \
-    | tar -xz \
-    && mv hub-linux-amd64-2.14.1/bin/hub /usr/local/bin/ \
-    && sudo chmod +x /usr/local/bin/hub \
-    && rm -rf hub-linux-amd64-2.14.1/
+RUN a2enmod rewrite
+RUN echo "\nServerName localhost\n" >> /etc/apache2/apache2.conf
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+RUN sed -i 's/www\/html/www\/localhost\/htdocs/g' /etc/apache2/sites-available/000-default.conf
 
-RUN composer global remove hirak/prestissimo
-RUN composer self-update --2
-RUN composer global config minimum-stability dev
-RUN composer global update
-RUN cd /var/www && rm -rf html
+RUN apache2ctl configtest
+RUN apache2ctl restart
+
+RUN composer self-update && \
+    composer global config minimum-stability dev && \
+    composer global config prefer-stable true && \
+    composer global require drush/drush:^8 acquia/blt-launcher
+ENV PATH="/root/.composer/vendor/bin:${PATH}"
+
+RUN usermod -a -G root www-data
