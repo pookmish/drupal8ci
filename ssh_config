@@ -1,6 +1,9 @@
 Host *.acquia.com
     StrictHostKeyChecking no
     UserKnownHostsFile=/dev/null
+Host *.acquia-sites.com
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
 Host *github.com*
     StrictHostKeyChecking no
     UserKnownHostsFile=/dev/null
