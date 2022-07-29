@@ -1,20 +1,12 @@
 FROM gitpod/workspace-mysql
 
-RUN sudo add-apt-repository ppa:ondrej/php && \
-    sudo install-packages php8.0
-
 RUN sudo apt-get update && sudo apt-get install -y \
     imagemagick \
     libmagickwand-dev \
     libzip-dev \
     keychain \
-    php8.0-gd \
-    php8.0-xml \
-    php8.0-curl \
-    php8.0-zip \
-    php8.0-bz2 \
-    php8.0-imagick \
-    php8.0-mysql \
+    php-bz2 \
+    php-imagick \
     php-pear \
     rsync \
     zip
@@ -40,4 +32,4 @@ RUN echo '. ~/.keychain/`uname -n` -sh' >> /etc/bash.bashrc
 RUN mkdir -p /home/gitpod/.ssh
 COPY ssh_config /home/gitpod/.ssh/config
 
-RUN a2dismod php7.4 && a2enmod php8.0
+RUN php -v
