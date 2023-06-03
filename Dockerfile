@@ -7,8 +7,9 @@ RUN sudo apt-get update && sudo apt-get install -y \
     libmagickwand-dev \
     libzip-dev \
     keychain \
-    php-bz2 \
-    php-imagick \
+    php8.1-curl \
+    php8.1-bz2 \
+    php8.1-imagick \
     php-pear \
     rsync \
     zip
@@ -33,5 +34,3 @@ RUN echo '. ~/.keychain/`uname -n` -sh' >> /etc/bash.bashrc
 
 RUN mkdir -p /home/gitpod/.ssh
 COPY ssh_config /home/gitpod/.ssh/config
-
-RUN php -v | grep 8
