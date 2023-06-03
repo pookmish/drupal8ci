@@ -1,4 +1,4 @@
-FROM tugboatqa/php:8-apache
+FROM tugboatqa/php:8.1-apache
 
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 RUN apt-get update && apt-get install bash git curl patch libmagickwand-dev libzip-dev zip imagemagick -y
@@ -31,3 +31,5 @@ RUN composer self-update && \
 ENV PATH="/root/.composer/vendor/bin:${PATH}"
 
 RUN usermod -a -G root www-data
+
+RUN php -v
