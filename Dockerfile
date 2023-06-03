@@ -1,5 +1,7 @@
 FROM gitpod/workspace-mysql
 
+RUN sudo update-alternatives --set php $(which php8.1)
+
 RUN sudo apt-get update && sudo apt-get install -y \
     imagemagick \
     libmagickwand-dev \
@@ -32,4 +34,4 @@ RUN echo '. ~/.keychain/`uname -n` -sh' >> /etc/bash.bashrc
 RUN mkdir -p /home/gitpod/.ssh
 COPY ssh_config /home/gitpod/.ssh/config
 
-RUN php -v
+RUN php -v | grep 8
