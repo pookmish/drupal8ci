@@ -8,8 +8,12 @@ RUN sudo apt-get update && sudo apt-get install -y \
     libzip-dev \
     keychain \
     php8.1-curl \
+    php8.1-gd \
     php8.1-bz2 \
     php8.1-imagick \
+    php8.1.xml \
+    php8.1.mbstring \
+    php8.1-zip \
     php-pear \
     rsync \
     zip
