@@ -5,7 +5,7 @@ RUN chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
 RUN rm /etc/apt/preferences.d/no-debian-php
-RUN apt update && apt install wget bash git curl patch libmagickwand-dev libzip-dev zip imagemagick rsync default-mysql-client gh -y && apt upgrade -y
+RUN apt update && apt install wget bash git curl patch libmagickwand-dev libzip-dev zip imagemagick rsync default-mysql-client gh freetype* -y && apt upgrade -y
 
 RUN pecl install pcov imagick
 RUN docker-php-ext-enable imagick
