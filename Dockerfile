@@ -1,19 +1,19 @@
 FROM gitpod/workspace-mysql
 
-RUN sudo update-alternatives --set php $(which php8.1)
+RUN sudo update-alternatives --set php $(which php8.2)
 
 RUN sudo apt-get update && sudo apt-get install -y \
     imagemagick \
     libmagickwand-dev \
     libzip-dev \
     keychain \
-    php8.1-curl \
-    php8.1-gd \
-    php8.1-bz2 \
-    php8.1-imagick \
-    php8.1.xml \
-    php8.1.mbstring \
-    php8.1-zip \
+    php8.2-curl \
+    php8.2-gd \
+    php8.2-bz2 \
+    php8.2-imagick \
+    php8.2.xml \
+    php8.2.mbstring \
+    php8.2-zip \
     php-pear \
     rsync \
     zip
