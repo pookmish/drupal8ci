@@ -1,4 +1,4 @@
-FROM tugboatqa/php:8.1-apache
+FROM tugboatqa/php:8.2-apache
 
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 RUN apt-get update && apt-get install bash git curl patch libmagickwand-dev libzip-dev zip imagemagick -y
