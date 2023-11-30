@@ -28,8 +28,6 @@ RUN composer self-update && \
     composer global config minimum-stability dev && \
     composer global config prefer-stable true && \
     composer global require drush/drush:^8 acquia/blt-launcher
-ENV PATH="/root/.composer/vendor/bin:${PATH}"
+ENV PATH="/root/.config/composer/vendor/bin:${PATH}"
 
 RUN usermod -a -G root www-data
-
-RUN php -v
