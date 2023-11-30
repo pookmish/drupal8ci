@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.1-apache
 
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 RUN chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
@@ -12,13 +12,14 @@ RUN docker-php-ext-enable imagick
 RUN docker-php-ext-configure gd --with-jpeg
 RUN docker-php-ext-install gd bz2 pdo zip pdo pdo_mysql mysqli calendar
 
-RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
-RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
-RUN composer global config minimum-stability dev
-RUN composer global config prefer-stable true
-RUN composer global require drush/drush:^8 acquia/blt-launcher
+RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php &&\
+    php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-ENV PATH /root/.config/composer/vendor/bin:${PATH}
+RUN composer global config minimum-stability dev &&\
+    composer global config prefer-stable true &&\
+    composer global require drush/drush:^8 acquia/blt-launcher
+
+ENV PATH "$PATH:/root/.config/composer/vendor/bin"
 
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 RUN echo 'extension=pcov.so' >> /usr/local/etc/php/php.ini
@@ -58,4 +59,4 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | b
     && nvm install 20
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:${PATH}
