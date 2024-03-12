@@ -1,3 +1,4 @@
+FROM node:latest AS node
 FROM php:8.2-apache
 
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
@@ -49,16 +50,10 @@ COPY ssh_config ~/.ssh/config
 
 RUN rm -rf /var/www/html
 
-RUN mkdir /usr/local/nvm
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 18.10.0
-
-# Install nvm with node and npm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash \
-    && . $NVM_DIR/nvm.sh \
-    && nvm install 20
-
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:${PATH}
-
 RUN composer --version && drush --version
+
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+
+RUN npm --version
