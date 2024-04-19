@@ -14,6 +14,7 @@ RUN sudo apt-get update && sudo apt-get install -y \
     php8.2.xml \
     php8.2.mbstring \
     php8.2-zip \
+    php8.2-mysql \
     php-pear \
     rsync \
     zip
