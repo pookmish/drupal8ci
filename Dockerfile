@@ -1,5 +1,5 @@
 FROM node:latest AS node
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 RUN chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
