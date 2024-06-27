@@ -9,6 +9,7 @@ RUN rm /etc/apt/preferences.d/no-debian-php
 RUN apt update && apt install wget bash git curl patch libmagickwand-dev libzip-dev zip imagemagick rsync default-mysql-client gh jq freetype* -y && apt upgrade -y
 
 RUN pecl install pcov imagick
+
 RUN docker-php-ext-enable imagick
 RUN docker-php-ext-configure gd --with-jpeg
 RUN docker-php-ext-install gd bz2 pdo zip pdo pdo_mysql mysqli calendar
@@ -20,7 +21,7 @@ RUN composer global config minimum-stability dev &&\
     composer global config prefer-stable true &&\
     composer global require drush/drush:^8 acquia/blt-launcher
 
-ENV PATH "$PATH:/root/.config/composer/vendor/bin"
+ENV PATH="$PATH:/root/.config/composer/vendor/bin"
 
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 RUN echo 'extension=pcov.so' >> /usr/local/etc/php/php.ini
@@ -35,7 +36,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 RUN apt update && apt install gh
 
-ENV DOCKERIZE_VERSION v0.6.1
+ENV DOCKERIZE_VERSION=v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
