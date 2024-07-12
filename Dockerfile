@@ -58,3 +58,4 @@ COPY --from=node /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 RUN npm --version
+RUN npm install --global yarn && yarn --version
