@@ -13,7 +13,9 @@ RUN cd /tmp &&\
     git clone https://github.com/Imagick/imagick.git  &&\
     pecl install /tmp/imagick/package.xml
 
+RUN pecl install pcov && docker-php-ext-enable pcov
 RUN docker-php-ext-enable imagick
+RUN docker-php-ext-enable pcov
 RUN docker-php-ext-configure gd --with-jpeg
 RUN docker-php-ext-install gd bz2 pdo zip pdo pdo_mysql mysqli calendar
 
@@ -27,7 +29,6 @@ RUN composer global config minimum-stability dev &&\
 ENV PATH="$PATH:/root/.config/composer/vendor/bin"
 
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
-RUN echo 'extension=pcov.so' >> /usr/local/etc/php/php.ini
 
 RUN a2enmod rewrite
 RUN echo "\nServerName localhost\n" >> /etc/apache2/apache2.conf
