@@ -1,5 +1,5 @@
 FROM node:latest AS node
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 RUN chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
@@ -8,7 +8,10 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/g
 RUN rm /etc/apt/preferences.d/no-debian-php
 RUN apt update && apt install wget bash git curl patch libmagickwand-dev libzip-dev zip imagemagick rsync default-mysql-client gh jq freetype* -y && apt upgrade -y
 
-RUN pecl install pcov imagick
+# Workaround for PHP 8.3 https://github.com/Imagick/imagick/issues/640#issuecomment-2305647434
+RUN cd /tmp &&\
+    git clone https://github.com/Imagick/imagick.git  &&\
+    pecl install /tmp/imagick/package.xml
 
 RUN docker-php-ext-enable imagick
 RUN docker-php-ext-configure gd --with-jpeg
