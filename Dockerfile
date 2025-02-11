@@ -1,20 +1,18 @@
 FROM gitpod/workspace-mysql
 
-RUN sudo update-alternatives --set php $(which php8.2)
-
 RUN sudo apt-get update && sudo apt-get install -y \
     imagemagick \
     libmagickwand-dev \
     libzip-dev \
     keychain \
-    php8.2-curl \
-    php8.2-gd \
-    php8.2-bz2 \
-    php8.2-imagick \
-    php8.2.xml \
-    php8.2.mbstring \
-    php8.2-zip \
-    php8.2-mysql \
+    php8.3-curl \
+    php8.3-gd \
+    php8.3-bz2 \
+    php8.3-imagick \
+    php8.3.xml \
+    php8.3.mbstring \
+    php8.3-zip \
+    php8.3-mysql \
     php-pear \
     rsync \
     zip
@@ -39,3 +37,7 @@ RUN echo '. ~/.keychain/`uname -n` -sh' >> /etc/bash.bashrc
 
 RUN mkdir -p /home/gitpod/.ssh
 COPY ssh_config /home/gitpod/.ssh/config
+
+RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/8.3/apache2/php.ini
+RUN sed -i 's/memory_limit = 128M/memory_limit = 256M/g' /etc/php/8.3/apache2/php.ini
+RUN sed -i 's/post_max_size = 8M/post_max_size = 100M/g' /etc/php/8.3/apache2/php.ini
